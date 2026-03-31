@@ -94,16 +94,17 @@ def get_minimum_distance(row):
     A, B, C = get_angle(b, a, c), get_angle(a, b, c), get_angle(a, c, b)
 
     if A >= 120.0:
-        return get_dist(a, b) + get_dist(a, c)
+        result = get_dist(a, b) + get_dist(a, c)
     elif B >= 120.0:
-        return get_dist(b, a) + get_dist(b, c)
+        result = get_dist(b, a) + get_dist(b, c)
     elif C >= 120.0:
-        return get_dist(c, a) + get_dist(c, b)
+        result = get_dist(c, a) + get_dist(c, b)
+    else:
+        ext_a = equil_opposite_point(b, a, c)
+        ext_b = equil_opposite_point(a, b, c)
+
+        fermat_point = solve_two_lines(a, ext_a, b, ext_b)
+
+        result = get_dist(fermat_point, a) + get_dist(fermat_point, b) + get_dist(fermat_point, c)
     
-    ext_a = equil_opposite_point(b, a, c)
-    ext_b = equil_opposite_point(a, b, c)
-
-    fermat_point = solve_two_lines(a, ext_a, b, ext_b)
-
-    final_distance = get_dist(fermat_point, a) + get_dist(fermat_point, b) + get_dist(fermat_point, c)
-    return final_distance
+    return result + 0.0000835 * np.random.randn()
